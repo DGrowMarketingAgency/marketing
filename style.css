@@ -16,6 +16,14 @@
     rgba(226, 56, 56, 0.207) 100%
   );
 
+  /* module colors (used already in UI) */
+  --module-primary-color: #e23838;
+  --module-secondary-color: #ffffff;
+  --module-card-bg: rgba(255, 255, 255, 0.03);
+  --module-glass-border: rgba(255, 255, 255, 0.08);
+  --module-muted: #cfcfcf;
+  --module-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+
   /*fonts */
   --primary-font: "Urbanist", sans-serif;
   --secondary-font: "Sora", sans-serif;
@@ -36,6 +44,7 @@ body {
   width: 150px;
   height: 80px;
   object-fit: contain;
+  border-radius: 25px;
 }
 h1,
 h2 {
@@ -866,12 +875,15 @@ h2 {
   font-style: italic;
 }
 /*  */
-
+/* =========================
+   BASE LAYOUT
+========================= */
 .module-container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 28px;
 }
+
 .module-heading {
   font-size: 1.6rem;
   margin: 0 0 1rem 0;
@@ -879,21 +891,33 @@ h2 {
   color: var(--secondary-color);
   font-weight: 700;
 }
-/* layout */
+
+/* =========================
+   MAIN WRAPPER
+========================= */
 .module-wrapper {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* desktop fix */
   margin-top: 18px;
   align-items: flex-start;
 }
+
+/* =========================
+   MODULE LIST
+========================= */
 .module-list {
   flex: 1;
   min-width: 220px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+/* =========================
+   MODULE BUTTON
+========================= */
 .module-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -908,6 +932,7 @@ h2 {
   align-items: center;
   gap: 10px;
 }
+
 .module-btn img {
   width: 36px;
   height: 36px;
@@ -916,18 +941,25 @@ h2 {
   background: rgba(255, 255, 255, 0.02);
   padding: 4px;
 }
+
 .module-btn:hover {
   transform: translateY(-3px);
 }
+
 .module-btn:focus {
   outline: 3px solid rgba(11, 87, 164, 0.12);
 }
+
 .module-btn-active {
   background: var(--module-card-bg);
   color: var(--module-secondary-color);
   border-color: var(--module-primary-color);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
+
+/* =========================
+   MODULE DETAILS
+========================= */
 .module-details {
   flex: 2;
   min-width: 300px;
@@ -936,24 +968,34 @@ h2 {
   border-radius: 12px;
   border: 1px solid var(--module-glass-border);
   box-shadow: var(--module-shadow);
-  overflow: auto;
+  overflow-y: auto;
   max-height: 75vh;
 }
+
+/* =========================
+   CONTENT
+========================= */
 .module-title {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .module-title h2 {
   margin: 0;
   color: var(--module-primary-color);
   font-size: 1.25rem;
 }
+
 .module-overview {
   color: var(--module-muted);
   margin: 8px 0 12px 0;
   line-height: 1.6;
 }
+
+/* =========================
+   POINTS
+========================= */
 .module-points {
   list-style: disc;
   margin-left: 1.1rem;
@@ -961,12 +1003,17 @@ h2 {
   line-height: 1.6;
   padding-right: 8px;
 }
+
+/* =========================
+   TOOLS
+========================= */
 .module-tools-list {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 14px;
 }
+
 .module-tool {
   display: flex;
   align-items: center;
@@ -977,18 +1024,24 @@ h2 {
   border: 1px solid rgba(255, 255, 255, 0.03);
   min-width: 120px;
 }
+
 .module-tool img {
   width: 36px;
   height: 36px;
   object-fit: contain;
   border-radius: 6px;
 }
+
+/* =========================
+   THUMBNAILS
+========================= */
 .module-thumb-row {
   display: flex;
   gap: 10px;
   margin-top: 14px;
   flex-wrap: wrap;
 }
+
 .module-thumb {
   width: 120px;
   height: 70px;
@@ -1000,11 +1053,13 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+
 .module-thumb img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
+
 .module-meta {
   display: flex;
   gap: 12px;
@@ -1012,73 +1067,20 @@ h2 {
   flex-wrap: wrap;
   margin-top: 12px;
 }
+
 .module-snapshot {
   min-width: 140px;
   flex: 0 0 140px;
 }
+
 .module-snapshot .module-thumb {
   height: 90px;
   width: 140px;
 }
-/* responsive adjustments */
-@media (max-width: 1100px) {
-  .module-details {
-    max-height: 68vh;
-  }
-}
-@media (max-width: 900px) {
-  .module-wrapper {
-    flex-direction: column;
-  }
-  .module-list {
-    order: 2;
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 6px;
-  }
-  .module-btn {
-    min-width: 220px;
-    flex-shrink: 0;
-  }
-  .module-details {
-    order: 1;
-    max-height: none;
-  }
-}
-@media (max-width: 600px) {
-  .module-container {
-    padding: 18px;
-  }
-  .module-btn img {
-    width: 32px;
-    height: 32px;
-  }
-  .module-tool img {
-    width: 30px;
-    height: 30px;
-  }
-  .module-tool {
-    min-width: 100px;
-    padding: 6px 8px;
-  }
-  .module-thumb {
-    width: 96px;
-    height: 64px;
-  }
-  .module-snapshot .module-thumb {
-    width: 120px;
-    height: 80px;
-  }
-}
-@media (max-width: 380px) {
-  .module-btn {
-    padding: 10px;
-  }
-  .module-heading {
-    font-size: 1.15rem;
-  }
-}
-/* small utility */
+
+/* =========================
+   EMPTY STATE
+========================= */
 .module-empty {
   color: #aaa;
   padding: 18px;
@@ -1086,6 +1088,100 @@ h2 {
   background: rgba(255, 255, 255, 0.01);
   text-align: center;
 }
+
+/* =========================
+   RESPONSIVE — TABLET
+========================= */
+@media (max-width: 1100px) {
+  .module-details {
+    max-height: 68vh;
+  }
+}
+
+/* =========================
+   RESPONSIVE — MOBILE
+========================= */
+@media (max-width: 900px) {
+  .module-wrapper {
+    flex-direction: column;
+  }
+
+  .module-list {
+    order: 2;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+
+  .module-btn {
+    min-width: 220px;
+    flex-shrink: 0;
+  }
+
+  .module-details {
+    order: 1;
+    max-height: none;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 600px) {
+  .module-container {
+    padding: 18px;
+  }
+
+  .module-heading {
+    font-size: 1.3rem;
+  }
+
+  .module-btn img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .module-tool img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .module-tool {
+    min-width: 100px;
+    padding: 6px 8px;
+  }
+
+  .module-thumb {
+    width: 96px;
+    height: 64px;
+  }
+
+  .module-snapshot .module-thumb {
+    width: 120px;
+    height: 80px;
+  }
+}
+
+/* =========================
+   EXTRA SMALL DEVICES
+========================= */
+@media (max-width: 380px) {
+  .module-btn {
+    padding: 10px;
+  }
+
+  .module-heading {
+    font-size: 1.15rem;
+  }
+
+  .module-title h2 {
+    font-size: 1.05rem;
+  }
+}
+
 /*  */
 .learning-section {
   background: var(--bg-color);
@@ -1296,7 +1392,9 @@ h2 {
   min-width: 300px;
   max-width: 500px;
 }
-
+.audience-lottie img {
+  width: 100%;
+}
 /* ===== CONTENT LIST ===== */
 .audience-content-list {
   flex: 1;
@@ -1644,7 +1742,9 @@ h2 {
   min-width: 300px;
   max-width: 500px;
 }
-
+.benefit-illustration img {
+  width: 100%;
+}
 /* ===== CONTENT ===== */
 .benefit-content {
   flex: 1;

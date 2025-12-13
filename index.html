@@ -32,7 +32,7 @@
   <body>
     <!-- header -->
     <div class="logo">
-      <img src="./assets/download.png" alt="" />
+      <img src="./assets/logo.png" alt="" />
     </div>
     <!-- header -->
     <!-- hero -->
@@ -134,6 +134,10 @@
       <div class="hero-img">
         <h2>Meet Your Mentor</h2>
         <div class="img-con">
+          <img
+            src="./assets/Gemini_Generated_Image_7f2jv27f2jv27f2j.png"
+            alt=""
+          />
           <!-- <dotlottie-wc
             src="https://lottie.host/8688b92d-2b62-4771-b3f6-e56ee2165715/TFtjbJTaMv.lottie"
             style="width: 100%; height: 100%"
@@ -240,7 +244,10 @@
     <!--  section 1-->
     <section class="section1">
       <div class="container">
-        <h2>Why Choose D Grow’s Digital Marketing Program?</h2>
+        <h2>
+          Why Choose D Grow’s <br />
+          Digital Marketing Program?
+        </h2>
         <section class="work-track">
           <div class="timeline">
             <div class="timeline-item left">
@@ -552,12 +559,7 @@
         <div class="audience-wrapper">
           <!-- Left Lottie Animation -->
           <div class="audience-lottie">
-            <dotlottie-wc
-              src="https://lottie.host/8688b92d-2b62-4771-b3f6-e56ee2165715/TFtjbJTaMv.lottie"
-              style="width: 100%; height: 100%"
-              autoplay
-              loop
-            ></dotlottie-wc>
+            <img src="./assets/Group 6.png" alt="" />
           </div>
 
           <!-- Right Content -->
@@ -675,44 +677,6 @@
           <span class="highlight">D-Grow</span>, signed by an Experienced Tutor
           & Educator.
         </p>
-
-        <div class="certification-grid">
-          <div class="cert-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt="Course Completion"
-            />
-            <p>Course Completion Certification</p>
-          </div>
-          <div class="cert-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/3037/3037955.png"
-              alt="Module Certification"
-            />
-            <p>Module Specific Certifications (10+)</p>
-          </div>
-          <div class="cert-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/732/732200.png"
-              alt="SEMRush"
-            />
-            <p>SEMRush Certifications (6)</p>
-          </div>
-          <div class="cert-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-              alt="Google My Business"
-            />
-            <p>Google My Business Certification</p>
-          </div>
-          <div class="cert-card">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/733/733609.png"
-              alt="Search Ads"
-            />
-            <p>Search Ads Certification</p>
-          </div>
-        </div>
       </div>
     </section>
     <section class="benefit-section">
@@ -764,12 +728,10 @@
 
           <!-- Right Content -->
           <div class="benefit-illustration">
-            <dotlottie-wc
-              src="https://lottie.host/12345678-xxxx-xxxx-xxxx-xxxxxxxxxxxx/example.lottie"
-              style="width: 100%; height: 100%"
-              autoplay
-              loop
-            ></dotlottie-wc>
+            <img
+              src="./assets/Gemini_Generated_Image_7ixupt7ixupt7ixu.png"
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -1781,37 +1743,64 @@
               "/assets/images/8.png",
               "/assets/images/10.png"
             ]
+          },
+          {
+            "id": 11,
+            "title": "MODULE 11",
+            "subtitle": "AI-POWERED ADVANCED DIGITAL MARKETING",
+            "overview": "This module gives you end-to-end mastery of the future of digital marketing, combining AI tools, automation, analytics, content creation, and emerging technologies into one complete learning system.",
+            "points": [
+              "How AI is transforming the digital marketing ecosystem",
+              "Using AI tools for content creation, scripting, blog writing & brand storytelling",
+              "AI-powered social media growth: idea generation, content buckets, scheduling & engagement optimization",
+              "Automating marketing workflows: lead nurturing, email automation, chatbots & CRM workflows",
+              "Creating high-converting ad scripts, captions and landing pages using AI",
+              "Video creation with AI: reel automation, auto-editing, AI voiceovers & AI avatars",
+              "Creative design with AI: brand kits, templates, ad creatives & campaign visuals"
+            ],
+            "tools": [
+              { "name": "BuzzSumo", "icon": "/assets/images/buzzsumo.png" }
+            ],
+            "thumbnail": "/assets/images/module10_thumb.png",
+            "imagesFromFiles": [
+              "/assets/images/11.png",
+              "/assets/images/9.png",
+              "/assets/images/8.png",
+              "/assets/images/10.png"
+            ]
           }
         ]
       }
     </script>
 
     <script>
-      // Parse embedded JSON
-      const raw = document.getElementById("modules-json").textContent;
+      // Parse embedded JSON safely
+      const raw = document.getElementById("modules-json").textContent.trim();
       const data = JSON.parse(raw);
       const modules = data.modules || [];
+
       const moduleListEl = document.getElementById("module-list");
       const detailsEl = document.getElementById("module-details");
 
-      // small helper to create elements
+      // Helper function
       function el(tag, props = {}, children = []) {
         const e = document.createElement(tag);
-        for (const [k, v] of Object.entries(props || {})) {
+        for (const [k, v] of Object.entries(props)) {
           if (k === "class") e.className = v;
           else if (k === "html") e.innerHTML = v;
           else e.setAttribute(k, v);
         }
         (Array.isArray(children) ? children : [children]).forEach((c) => {
-          if (!c && c !== 0) return;
-          if (typeof c === "string" || typeof c === "number")
-            e.appendChild(document.createTextNode(String(c)));
-          else e.appendChild(c);
+          if (typeof c === "string" || typeof c === "number") {
+            e.appendChild(document.createTextNode(c));
+          } else if (c instanceof Node) {
+            e.appendChild(c);
+          }
         });
         return e;
       }
 
-      // Build module buttons
+      // Build module buttons (TEXT ONLY)
       modules.forEach((m, idx) => {
         const btn = el("button", {
           class: "module-btn",
@@ -1819,25 +1808,15 @@
           "aria-pressed": "false",
           title: m.title + " - " + m.subtitle,
         });
-        const iconSrc =
-          (m.tools && m.tools[0] && m.tools[0].icon) ||
-          m.thumbnail ||
-          data.siteImagesPath + "default_tool.png";
-        const icon = el("img", {
-          src: iconSrc,
-          alt: m.title + " icon",
-          loading: "lazy",
-        });
-        const textWrap = el("div", {}, [
-          el("div", { class: "module-sub", html: m.title }),
-          el("div", { style: "font-size:.86rem;color:#cfcfcf" }, m.subtitle),
+
+        const textWrap = el("div", { class: "module-text" }, [
+          el("div", { class: "module-sub" }, m.title),
+          el("div", { class: "module-subtitle" }, m.subtitle),
         ]);
-        btn.appendChild(icon);
+
         btn.appendChild(textWrap);
         btn.addEventListener("click", () => selectModule(m.id));
-        moduleListEl.appendChild(btn);
 
-        // keyboard accessibility: allow Enter / Space
         btn.addEventListener("keydown", (ev) => {
           if (ev.key === "Enter" || ev.key === " ") {
             ev.preventDefault();
@@ -1845,8 +1824,9 @@
           }
         });
 
-        // activate first by default
-        if (idx === 0) setTimeout(() => selectModule(m.id), 60);
+        moduleListEl.appendChild(btn);
+
+        if (idx === 0) setTimeout(() => selectModule(m.id), 50);
       });
 
       function clearActiveBtns() {
@@ -1857,112 +1837,57 @@
       }
 
       function selectModule(id) {
-        const mod = modules.find((mm) => mm.id === id);
-        if (!mod) {
-          detailsEl.innerHTML =
-            '<div class="module-empty">Module not found.</div>';
-          return;
-        }
+        const mod = modules.find((m) => m.id === id);
+        if (!mod) return;
+
         clearActiveBtns();
         const btn = moduleListEl.querySelector(`[data-id="${id}"]`);
         if (btn) {
           btn.classList.add("module-btn-active");
           btn.setAttribute("aria-pressed", "true");
-          btn.focus({ preventScroll: true });
         }
 
-        // Build details content
         detailsEl.innerHTML = "";
-        const titleBlock = el("div", { class: "module-title" }, [
-          el("h2", {}, mod.title + " — " + mod.subtitle),
-        ]);
-        detailsEl.appendChild(titleBlock);
-        if (mod.overview)
+
+        // Title
+        detailsEl.appendChild(
+          el("div", { class: "module-title" }, [
+            el("h2", {}, `${mod.title} — ${mod.subtitle}`),
+          ])
+        );
+
+        // Overview
+        if (mod.overview) {
           detailsEl.appendChild(
             el("p", { class: "module-overview" }, mod.overview)
           );
+        }
 
-        // points
+        // Points
         if (mod.points && mod.points.length) {
-          const ul = el("ul", { class: "module-points", role: "list" });
+          const ul = el("ul", { class: "module-points" });
           mod.points.forEach((pt) => ul.appendChild(el("li", {}, pt)));
           detailsEl.appendChild(ul);
         }
 
-        // tools
+        // Tools (TEXT ONLY)
         if (mod.tools && mod.tools.length) {
           detailsEl.appendChild(
-            el(
-              "h4",
-              { style: "margin-top:14px;color:var(--module-primary-color);" },
-              "Tools Covered"
-            )
+            el("h4", { class: "module-tools-title" }, "Tools Covered")
           );
-          const wrap = el("div", { class: "module-tools-list" });
+
+          const toolsList = el("ul", { class: "module-tools-text" });
           mod.tools.forEach((t) => {
-            const tool = el("div", { class: "module-tool", title: t.name }, [
-              el("img", {
-                src: t.icon,
-                alt: t.name + " icon",
-                loading: "lazy",
-              }),
-              el("div", {}, t.name),
-            ]);
-            wrap.appendChild(tool);
+            toolsList.appendChild(el("li", {}, t.name));
           });
-          detailsEl.appendChild(wrap);
+
+          detailsEl.appendChild(toolsList);
         }
 
-        // imagesFromFiles (thumbnails row)
-        if (mod.imagesFromFiles && mod.imagesFromFiles.length) {
-          const row = el("div", { class: "module-thumb-row" });
-          mod.imagesFromFiles.forEach((src) => {
-            row.appendChild(
-              el(
-                "div",
-                { class: "module-thumb" },
-                el("img", { src, alt: mod.title + " image", loading: "lazy" })
-              )
-            );
-          });
-          detailsEl.appendChild(row);
-        }
-
-        // main thumbnail snapshot
-        if (mod.thumbnail) {
-          const meta = el("div", { class: "module-meta" });
-          meta.appendChild(
-            el(
-              "div",
-              { class: "module-snapshot" },
-              el(
-                "div",
-                { class: "module-thumb" },
-                el("img", {
-                  src: mod.thumbnail,
-                  alt: mod.title + " thumb",
-                  loading: "lazy",
-                })
-              )
-            )
-          );
-          meta.appendChild(
-            el(
-              "div",
-              {},
-              el(
-                "div",
-                { style: "color:#cfcfcf;font-size:.95rem" },
-                "Module snapshot"
-              )
-            )
-          );
-          detailsEl.appendChild(meta);
-        }
-
-        // scroll details to top for mobile
-        if (window.innerWidth <= 900)
+        // Mobile scroll
+        if (window.innerWidth <= 900) {
           detailsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
     </script>
   </body>
