@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Modules Overview (Dynamic)</title>
+    <style>
+      :root {
+        --module-bg: #071226;
+        --module-primary-color: #0b57a4;
+        --module-secondary-color: #ffffff;
+        --module-muted: #cfcfcf;
+        --module-card-bg: rgba(255, 255, 255, 0.02);
+        --module-glass-border: rgba(255, 255, 255, 0.08);
+        --module-shadow: 0 6px 18px rgba(4, 20, 40, 0.6);
+        --module-accent: #e23838;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: linear-gradient(180deg, var(--module-bg) 0%, #0e2b44 100%);
+        color: var(--module-secondary-color);
+        -webkit-font-smoothing: antialiased;
+      }
+      .module-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+      .module-heading {
+        font-size: 1.6rem;
+        margin: 0 0 1rem 0;
+        text-align: center;
+        color: var(--module-secondary-color);
+        font-weight: 700;
+      }
+      /* layout */
+      .module-wrapper {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+        align-items: flex-start;
+      }
+      .module-list {
+        flex: 1;
+        min-width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .module-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #bbb;
+        padding: 12px 16px;
+        border-radius: 10px;
+        text-align: left;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .module-btn img {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 4px;
+      }
+      .module-btn:hover {
+        transform: translateY(-3px);
+      }
+      .module-btn:focus {
+        outline: 3px solid rgba(11, 87, 164, 0.12);
+      }
+      .module-btn-active {
+        background: var(--module-card-bg);
+        color: var(--module-secondary-color);
+        border-color: var(--module-primary-color);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      }
+      .module-details {
+        flex: 2;
+        min-width: 300px;
+        background: var(--module-card-bg);
+        padding: 22px;
+        border-radius: 12px;
+        border: 1px solid var(--module-glass-border);
+        box-shadow: var(--module-shadow);
+        overflow: auto;
+        max-height: 75vh;
+      }
+      .module-title {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .module-title h2 {
+        margin: 0;
+        color: var(--module-primary-color);
+        font-size: 1.25rem;
+      }
+      .module-overview {
+        color: var(--module-muted);
+        margin: 8px 0 12px 0;
+        line-height: 1.6;
+      }
+      .module-points {
+        list-style: disc;
+        margin-left: 1.1rem;
+        color: #d9d9d9;
+        line-height: 1.6;
+        padding-right: 8px;
+      }
+      .module-tools-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .module-tool {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        min-width: 120px;
+      }
+      .module-tool img {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        border-radius: 6px;
+      }
+      .module-thumb-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .module-thumb {
+        width: 120px;
+        height: 70px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: #0b2743;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .module-thumb img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .module-meta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .module-snapshot {
+        min-width: 140px;
+        flex: 0 0 140px;
+      }
+      .module-snapshot .module-thumb {
+        height: 90px;
+        width: 140px;
+      }
+      /* responsive adjustments */
+      @media (max-width: 1100px) {
+        .module-details {
+          max-height: 68vh;
+        }
+      }
+      @media (max-width: 900px) {
+        .module-wrapper {
+          flex-direction: column;
+        }
+        .module-list {
+          order: 2;
+          flex-direction: row;
+          overflow-x: auto;
+          padding-bottom: 6px;
+        }
+        .module-btn {
+          min-width: 220px;
+          flex-shrink: 0;
+        }
+        .module-details {
+          order: 1;
+          max-height: none;
+        }
+      }
+      @media (max-width: 600px) {
+        .module-container {
+          padding: 18px;
+        }
+        .module-btn img {
+          width: 32px;
+          height: 32px;
+        }
+        .module-tool img {
+          width: 30px;
+          height: 30px;
+        }
+        .module-tool {
+          min-width: 100px;
+          padding: 6px 8px;
+        }
+        .module-thumb {
+          width: 96px;
+          height: 64px;
+        }
+        .module-snapshot .module-thumb {
+          width: 120px;
+          height: 80px;
+        }
+      }
+      @media (max-width: 380px) {
+        .module-btn {
+          padding: 10px;
+        }
+        .module-heading {
+          font-size: 1.15rem;
+        }
+      }
+      /* small utility */
+      .module-empty {
+        color: #aaa;
+        padding: 18px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.01);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="module-container" id="module-root">
+      <h1 class="module-heading">What You’ll Learn (Modules Overview)</h1>
+
+      <div class="module-wrapper" id="module-section">
+        <div class="module-list" id="module-list">
+          <!-- module buttons injected here -->
+        </div>
+
+        <div class="module-details" id="module-details" aria-live="polite">
+          <!-- module details injected here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Embedded JSON (source of truth) -->
+    <script id="modules-json" type="application/json">
+      {
+        "siteImagesPath": "/assets/images/",
+        "modules": [
+          {
+            "id": 1,
+            "title": "MODULE 1",
+            "subtitle": "SOCIAL MEDIA MANAGEMENT",
+            "overview": "Social Media has the power to reach the unreachable. It’s one of the easiest ways to reach the masses as 52% of India’s population has access to the internet and is active on Social media. In this module, we will help you get your business socially active.",
+            "points": [
+              "The basics of all the social media platforms (Facebook & Instagram) – Planning,",
+              "Strategizing, Scheduling, and Promoting",
+              "Strategies and create a monthly calendar and implement the same for your small/medium or big business",
+              "The best-performing content types that are tried and tested with big brands",
+              "How to set up all platforms, how to gain followers, and the best means to engage them",
+              "How a non-designer can unravel their designing skills using different tools",
+              "The importance of #Hashtags and how to make the best use of its reach",
+              "Local, national, and global case studies of brands that have aced the social media game with their viral content",
+              "What are the different types of content bucket",
+              "Campaign checklist",
+              "How to write the perfect description",
+              "Things to do to kickstart Social media for a new brand",
+              "How to do a competitor analysis",
+              "Types of posts designs",
+              "Content tips that work wonders on SM",
+              "15 types of Social media contest",
+              "Planning your SMM strategy & content bucket",
+              "Gauging Social media performance and growth",
+              "AI for social media"
+            ],
+            "tools": [
+              { "name": "Hootsuite", "icon": "/assets/images/hootsuite.png" },
+              { "name": "Canva", "icon": "/assets/images/canva.png" },
+              { "name": "Buffer", "icon": "/assets/images/buffer.png" },
+              { "name": "Other", "icon": "/assets/images/smm_other.png" }
+            ],
+            "thumbnail": "/assets/images/module1_thumb.png"
+          },
+          {
+            "id": 2,
+            "title": "MODULE 2",
+            "subtitle": "INSTAGRAM FOR BUSINESS",
+            "overview": "After helping more than 10+ clients, we bring forward the best strategies to you that will help your business brand achieve relevant followers and you will learn to monetize them. Learn from the experts on the best strategies to manage an Instagram page for top national and international clients.",
+            "points": [
+              "Learn the art of growing followers on the most popular social media channels",
+              "Optimize and polish your bio",
+              "Content generation and video making",
+              "Hashtags, Stories, and Reels",
+              "Understanding advanced analytics to make informed decisions",
+              "Basics of Instagram advertisements",
+              "How to generate sales from Instagram",
+              "Local, National, and Global case studies",
+              "Influencer Marketing - How to approach and types, how to work with them",
+              "AI for Instagram Scripts",
+              "Ways to engage followers",
+              "InstaChamp",
+              "Analytics"
+            ],
+            "tools": [
+              { "name": "InstaChamp", "icon": "/assets/images/instachamp.png" },
+              { "name": "Taplink", "icon": "/assets/images/taplink.png" },
+              {
+                "name": "MetaHashtags",
+                "icon": "/assets/images/metahashtags.png"
+              },
+              { "name": "AllHashtag", "icon": "/assets/images/allhashtag.png" }
+            ],
+            "thumbnail": "/assets/images/module2_thumb.png"
+          },
+          {
+            "id": 3,
+            "title": "MODULE 3",
+            "subtitle": "LINKEDIN PERSONAL BRANDING",
+            "overview": "LinkedIn is the world’s largest professional networking platform, connecting over 930 million members across 200+ countries. It allows you to showcase your profile, expertise, recommendations, and connections—making it easier for recruiters and employers to find you.",
+            "points": [
+              "What Makes LinkedIn Different? – Why it’s the #1 platform for personal branding, authority building, and inbound lead generation.",
+              "Opportunities for Everyone – Whether you’re a student, job seeker, professional, or entrepreneur, LinkedIn can open doors you never imagined.",
+              "Do You Really Need LinkedIn Premium? – A breakdown of whether the investment is worth it for your goals.",
+              "Networking Like a Pro – How to connect with industry leaders and decision-makers to expand your influence.",
+              "Profile Optimization Secrets – The VCAE Blueprint to 10x your visibility and attract the right opportunities.",
+              "Mastering LinkedIn Connections – The right way to grow your network strategically.",
+              "The Magic of Content – How LinkedIn’s dwell algorithm works and how to create posts that get seen.",
+              "Content Scheduling for Consistency – Using tools like Publer to stay active without the manual effort.",
+              "Hacking LinkedIn’s Algorithm – Boost engagement, maximize reach, and establish authority.",
+              "Cold Outreach That Works – How to send messages that get responses and turn connections into business opportunities.",
+              "LinkedIn Ads – Worth the Investment? – Understanding ROI potential.",
+              "If you’re not leveraging LinkedIn the right way, you’re leaving money and opportunities on the table."
+            ],
+            "tools": [
+              {
+                "name": "LinkedIn Sales Navigator",
+                "icon": "/assets/images/linkedin_sales_nav.png"
+              },
+              {
+                "name": "LinkedIn Learning",
+                "icon": "/assets/images/linkedin_learning.png"
+              },
+              { "name": "TexAu", "icon": "/assets/images/texau.png" },
+              { "name": "Wordtune", "icon": "/assets/images/wordtune.png" },
+              { "name": "Publer", "icon": "/assets/images/publer.png" },
+              { "name": "Crystal", "icon": "/assets/images/crystal.png" }
+            ],
+            "thumbnail": "/assets/images/module3_thumb.png"
+          },
+          {
+            "id": 4,
+            "title": "MODULE 4",
+            "subtitle": "FACEBOOK ADS & INSTAGRAM ADS",
+            "overview": "Comprehensive Facebook & Instagram Ads training: from psychology and objectives to scaling and advanced targeting.",
+            "points": [
+              "Psychology and Objective of Facebook Ads",
+              "How to understand client needs",
+              "How to create Facebook Ad account",
+              "Understanding Facebook Ad structure, GST and Billing Protocols",
+              "Scaling Facebook Ads, CBO",
+              "Method, Snippet Method, Ad Set Optimization",
+              "New Ad account method",
+              "How to bill for Facebook Ads",
+              "4 Types of targeting",
+              "Understanding custom audience and look-alike audience",
+              "Creating 1% - 5% look-alike audience",
+              "Creating video views custom audience",
+              "Creating custom audience on basis of URL parameters",
+              "Creating custom audience on basis of Social Media engagement",
+              "Understanding Facebook Ad results, Pixel Integrations",
+              "Custom conversion pixel",
+              "Understanding funnels",
+              "Creating evergreen retargeting",
+              "Setting up automated rules",
+              "Creating customized reports",
+              "Case study discussion",
+              "Different types of Ads that works – Dynamic Ads, Catalog Ads, Reel Ads",
+              "Lead Generation Campaign, Creating conversion, retargeting campaign",
+              "Creating customer avatar",
+              "Creating Ad copies",
+              "Targeting examples for different industries - Real Estate, Ecommerce, Education, Health Care"
+            ],
+            "tools": [
+              { "name": "Pabbly", "icon": "/assets/images/pabbly.png" },
+              {
+                "name": "Facebook Ads Manager",
+                "icon": "/assets/images/facebook_ads.png"
+              }
+            ],
+            "thumbnail": "/assets/images/module4_thumb.png"
+          },
+          {
+            "id": 5,
+            "title": "MODULE 5",
+            "subtitle": "CONTENT WRITING",
+            "overview": "Consumers perceive content as a feed to their otherwise occupied mind. When they see your website, they should be convinced enough to open your website and make a purchase or take any of the CTAs. Writing is an art in itself and it is important to write persuasive content to see a positive conversion rate.",
+            "points": [
+              "What is content writing and how does it contribute to your website?",
+              "What is SEO-based content writing?",
+              "Content research and planning keyword research and its density",
+              "Flow & coherence in understanding various online content tools",
+              "What is plagiarism and how to avoid it",
+              "Monetizing your writing",
+              "What are keywords and their types",
+              "How to write a blog"
+            ],
+            "tools": [
+              {
+                "name": "Peppertype.ai",
+                "icon": "/assets/images/peppertype.png"
+              },
+              {
+                "name": "SmallSEOTools",
+                "icon": "/assets/images/smallseotools.png"
+              }
+            ],
+            "thumbnail": "/assets/images/module5_thumb.png",
+            "imagesFromFiles": ["/assets/images/12.png"]
+          },
+          {
+            "id": 6,
+            "title": "MODULE 6",
+            "subtitle": "SEARCH ENGINE OPTIMIZATION",
+            "overview": "Learn & implement search engine optimisation that produces results! Get your website to the top of the major search engines with a 20-step unique framework to crack any blog or website to rank on top of Google's search engine.",
+            "points": [
+              "Know what is important in a technical audit and how to start one yourself",
+              "Boosting SEO with Structured Data Markup",
+              "Be able to optimize on-page content with the right keywords & page structure",
+              "Understand what a good URL structure is and how you can influence crawl behavior",
+              "Finding places to get great links to your site",
+              "Know how to use JavaScript frameworks to influence technical SEO",
+              "Easily create XML sitemaps to help you better understand content & index rates",
+              "Be skilled at marking up your content with structured data so it can extract entities",
+              "Be able to decide on the right domain strategy, URL structure, content & keywords while working across multiple countries",
+              "Learn Link Building Strategies and get backlinks with over 30+ DA sites without paying"
+            ],
+            "tools": [
+              {
+                "name": "Google Keyword Planner",
+                "icon": "/assets/images/google_keyword_planner.png"
+              },
+              {
+                "name": "Ubersuggest",
+                "icon": "/assets/images/ubersuggest.png"
+              },
+              { "name": "KWFinder", "icon": "/assets/images/kwfinder.png" },
+              {
+                "name": "AnswerThePublic",
+                "icon": "/assets/images/answerthepublic.png"
+              },
+              { "name": "GTmetrix", "icon": "/assets/images/gtmetrix.png" },
+              { "name": "Pingdom", "icon": "/assets/images/pingdom.png" },
+              {
+                "name": "Google Analytics",
+                "icon": "/assets/images/google_analytics.png"
+              },
+              { "name": "Semrush", "icon": "/assets/images/semrush.png" },
+              {
+                "name": "SmallSEOTools",
+                "icon": "/assets/images/smallseotools.png"
+              }
+            ],
+            "thumbnail": "/assets/images/module6_thumb.png",
+            "imagesFromFiles": ["/assets/images/13.png"]
+          },
+          {
+            "id": 7,
+            "title": "MODULE 7",
+            "subtitle": "SEARCH ENGINE MARKETING",
+            "overview": "Learn an amazing framework designed by the team of Digital Scholar and get a full suite of execution tactics to follow so you’re always running ads that hit the right targets and get you the results you need.",
+            "points": [
+              "How to set up your Google Ads account from scratch",
+              "Understand PPC temperatures – so you can follow the law of conversion intent",
+              "Set up conversion tracking and how to track phone calls from your website",
+              "Track sales, revenue and form submissions using Google AdWords",
+              "Take advantage of competitor reports and customer data in your campaigns",
+              "Increase quality score and decrease your cost per click",
+              "Be a master of targeting and A/B split testing. Find the best optimization routine",
+              "Scale all types of campaigns – so that you can scale up your campaigns after you’ve achieved better ROAS and CPA"
+            ],
+            "tools": [
+              {
+                "name": "Google Keyword Planner",
+                "icon": "/assets/images/google_keyword_planner.png"
+              },
+              { "name": "Semrush", "icon": "/assets/images/semrush.png" },
+              {
+                "name": "YouTube Analytics",
+                "icon": "/assets/images/youtube_analytics.png"
+              },
+              { "name": "Google Ads", "icon": "/assets/images/google_ads.png" },
+              {
+                "name": "Google Analytics",
+                "icon": "/assets/images/google_analytics.png"
+              }
+            ],
+            "thumbnail": "/assets/images/module7_thumb.png",
+            "imagesFromFiles": ["/assets/images/14.png"]
+          },
+          {
+            "id": 8,
+            "title": "MODULE 8",
+            "subtitle": "DIGITAL DESIGN MASTERY",
+            "overview": "Design principles, Canva mastery, social post creation, and FB Ad creatives — everything you need to create high-performing visuals.",
+            "points": [
+              "What is Design",
+              "What are design principles",
+              "Do's and don'ts of design",
+              "Understanding Canva Interface and Core elements Establishing your Brand Kit using Canva",
+              "Designing all your Social Media Post using Canva",
+              "How to think of creatives ideas and Inspirations",
+              "FB Ad Creatives and Carousel Mastery",
+              "How to make money with Canva Skills"
+            ],
+            "tools": [{ "name": "Canva", "icon": "/assets/images/canva.png" }],
+            "thumbnail": "/assets/images/module8_thumb.png",
+            "imagesFromFiles": ["/assets/images/15.png"]
+          },
+          {
+            "id": 9,
+            "title": "MODULE 9",
+            "subtitle": "VIDEO EDITING",
+            "overview": "Learning video editing is a rewarding skill that can open up a lot of creative possibilities.",
+            "points": [
+              "Understand the Basics of Video Editing",
+              "Cutting and Trimming: Learning how to cut and trim video clips is essential.",
+              "Transitions: Learn how to use transitions between scenes or clips.",
+              "Audio Editing: Ensuring audio levels are correct, including background music, voiceovers, and sound effects.",
+              "Text and Titles: Text can be used to add titles, captions, and credits. Learn how to place and animate text.",
+              "Basic Color Correction: Adjusting brightness, contrast, saturation, and hue to make your video look polished."
+            ],
+            "tools": [{ "name": "Canva", "icon": "/assets/images/canva.png" }],
+            "thumbnail": "/assets/images/module9_thumb.png"
+          },
+          {
+            "id": 10,
+            "title": "MODULE 10",
+            "subtitle": "PERSONAL BRANDING",
+            "overview": "Your content is the gateway to your personal brand. On Instagram & LinkedIn, every post should capture attention, build credibility, and drive engagement. Writing isn’t just about words — it’s about making an impact.",
+            "points": [
+              "How to write engaging posts that boost your authority",
+              "SEO-based content strategies to increase reach",
+              "Researching, planning & using the right keywords",
+              "Maintaining flow, coherence & storytelling",
+              "Avoiding plagiarism & ensuring originality",
+              "Monetizing your content through personal branding",
+              "The power of hashtags & LinkedIn SEO",
+              "Writing compelling posts that spark conversations",
+              "Craft content that makes people stop, engage, and remember your brand!"
+            ],
+            "tools": [
+              { "name": "BuzzSumo", "icon": "/assets/images/buzzsumo.png" }
+            ],
+            "thumbnail": "/assets/images/module10_thumb.png",
+            "imagesFromFiles": [
+              "/assets/images/11.png",
+              "/assets/images/9.png",
+              "/assets/images/8.png",
+              "/assets/images/10.png"
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      // Parse embedded JSON
+      const raw = document.getElementById("modules-json").textContent;
+      const data = JSON.parse(raw);
+      const modules = data.modules || [];
+      const moduleListEl = document.getElementById("module-list");
+      const detailsEl = document.getElementById("module-details");
+
+      // small helper to create elements
+      function el(tag, props = {}, children = []) {
+        const e = document.createElement(tag);
+        for (const [k, v] of Object.entries(props || {})) {
+          if (k === "class") e.className = v;
+          else if (k === "html") e.innerHTML = v;
+          else e.setAttribute(k, v);
+        }
+        (Array.isArray(children) ? children : [children]).forEach((c) => {
+          if (!c && c !== 0) return;
+          if (typeof c === "string" || typeof c === "number")
+            e.appendChild(document.createTextNode(String(c)));
+          else e.appendChild(c);
+        });
+        return e;
+      }
+
+      // Build module buttons
+      modules.forEach((m, idx) => {
+        const btn = el("button", {
+          class: "module-btn",
+          "data-id": m.id,
+          "aria-pressed": "false",
+          title: m.title + " - " + m.subtitle,
+        });
+        const iconSrc =
+          (m.tools && m.tools[0] && m.tools[0].icon) ||
+          m.thumbnail ||
+          data.siteImagesPath + "default_tool.png";
+        const icon = el("img", {
+          src: iconSrc,
+          alt: m.title + " icon",
+          loading: "lazy",
+        });
+        const textWrap = el("div", {}, [
+          el("div", { class: "module-sub", html: m.title }),
+          el("div", { style: "font-size:.86rem;color:#cfcfcf" }, m.subtitle),
+        ]);
+        btn.appendChild(icon);
+        btn.appendChild(textWrap);
+        btn.addEventListener("click", () => selectModule(m.id));
+        moduleListEl.appendChild(btn);
+
+        // keyboard accessibility: allow Enter / Space
+        btn.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            selectModule(m.id);
+          }
+        });
+
+        // activate first by default
+        if (idx === 0) setTimeout(() => selectModule(m.id), 60);
+      });
+
+      function clearActiveBtns() {
+        moduleListEl.querySelectorAll(".module-btn").forEach((b) => {
+          b.classList.remove("module-btn-active");
+          b.setAttribute("aria-pressed", "false");
+        });
+      }
+
+      function selectModule(id) {
+        const mod = modules.find((mm) => mm.id === id);
+        if (!mod) {
+          detailsEl.innerHTML =
+            '<div class="module-empty">Module not found.</div>';
+          return;
+        }
+        clearActiveBtns();
+        const btn = moduleListEl.querySelector(`[data-id="${id}"]`);
+        if (btn) {
+          btn.classList.add("module-btn-active");
+          btn.setAttribute("aria-pressed", "true");
+          btn.focus({ preventScroll: true });
+        }
+
+        // Build details content
+        detailsEl.innerHTML = "";
+        const titleBlock = el("div", { class: "module-title" }, [
+          el("h2", {}, mod.title + " — " + mod.subtitle),
+        ]);
+        detailsEl.appendChild(titleBlock);
+        if (mod.overview)
+          detailsEl.appendChild(
+            el("p", { class: "module-overview" }, mod.overview)
+          );
+
+        // points
+        if (mod.points && mod.points.length) {
+          const ul = el("ul", { class: "module-points", role: "list" });
+          mod.points.forEach((pt) => ul.appendChild(el("li", {}, pt)));
+          detailsEl.appendChild(ul);
+        }
+
+        // tools
+        if (mod.tools && mod.tools.length) {
+          detailsEl.appendChild(
+            el(
+              "h4",
+              { style: "margin-top:14px;color:var(--module-primary-color);" },
+              "Tools Covered"
+            )
+          );
+          const wrap = el("div", { class: "module-tools-list" });
+          mod.tools.forEach((t) => {
+            const tool = el("div", { class: "module-tool", title: t.name }, [
+              el("img", {
+                src: t.icon,
+                alt: t.name + " icon",
+                loading: "lazy",
+              }),
+              el("div", {}, t.name),
+            ]);
+            wrap.appendChild(tool);
+          });
+          detailsEl.appendChild(wrap);
+        }
+
+        // imagesFromFiles (thumbnails row)
+        if (mod.imagesFromFiles && mod.imagesFromFiles.length) {
+          const row = el("div", { class: "module-thumb-row" });
+          mod.imagesFromFiles.forEach((src) => {
+            row.appendChild(
+              el(
+                "div",
+                { class: "module-thumb" },
+                el("img", { src, alt: mod.title + " image", loading: "lazy" })
+              )
+            );
+          });
+          detailsEl.appendChild(row);
+        }
+
+        // main thumbnail snapshot
+        if (mod.thumbnail) {
+          const meta = el("div", { class: "module-meta" });
+          meta.appendChild(
+            el(
+              "div",
+              { class: "module-snapshot" },
+              el(
+                "div",
+                { class: "module-thumb" },
+                el("img", {
+                  src: mod.thumbnail,
+                  alt: mod.title + " thumb",
+                  loading: "lazy",
+                })
+              )
+            )
+          );
+          meta.appendChild(
+            el(
+              "div",
+              {},
+              el(
+                "div",
+                { style: "color:#cfcfcf;font-size:.95rem" },
+                "Module snapshot"
+              )
+            )
+          );
+          detailsEl.appendChild(meta);
+        }
+
+        // scroll details to top for mobile
+        if (window.innerWidth <= 900)
+          detailsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    </script>
+  </body>
+</html>
