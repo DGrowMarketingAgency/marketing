@@ -1608,7 +1608,15 @@ h2 {
   margin-top: 10px;
   line-height: 1.8;
 }
-
+.certification-pre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.certification-pre img {
+  width: 320px;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .audience-wrapper {
@@ -1873,10 +1881,11 @@ h2 {
 
 .slide img {
   height: 60px;
-  width: auto;
-  filter: brightness(0) invert(1);
-  opacity: 0.8;
+  width: 150px;
+  /* filter: brightness(0) invert(1); */
+  /* opacity: 0.8; */
   transition: all 0.3s ease;
+  object-fit: contain;
 }
 
 .slide img:hover {
@@ -2131,6 +2140,9 @@ h2 {
 }
 
 @media screen and (max-width: 575px) {
+  .certification-pre {
+    flex-direction: column;
+  }
   .cert-card {
     width: 130px;
     padding: 20px 10px;
@@ -2209,6 +2221,9 @@ h2 {
   }
 }
 @media (min-width: 576px) and (max-width: 767px) {
+  .certification-pre {
+    flex-direction: column;
+  }
   .per-des {
     width: 100%;
   }
@@ -2276,4 +2291,31 @@ h2 {
 @media (min-width: 768px) and (max-width: 991px) {
 }
 @media (min-width: 992px) and (max-width: 1199px) {
+}
+/* TOOLS UI */
+.module-tools-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.module-tool-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.module-tool-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.module-tool-name {
+  font-weight: 500;
 }
