@@ -885,11 +885,14 @@ h2 {
 }
 
 .module-heading {
-  font-size: 1.6rem;
+  font-size: 3.6rem;
   margin: 0 0 1rem 0;
   text-align: center;
   color: var(--secondary-color);
   font-weight: 700;
+}
+.module-sub {
+  font-size: 1.8rem;
 }
 
 /* =========================
@@ -984,7 +987,7 @@ h2 {
 .module-title h2 {
   margin: 0;
   color: var(--module-primary-color);
-  font-size: 1.25rem;
+  font-size: 1.6rem;
 }
 
 .module-overview {
@@ -1756,6 +1759,7 @@ h2 {
 }
 .benefit-illustration img {
   width: 100%;
+  border-radius: 20px;
 }
 /* ===== CONTENT ===== */
 .benefit-content {
